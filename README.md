@@ -19,3 +19,5 @@ This guide was last edited on July 15th, 2025 by Owen Rask
 
 # 7. Common Debugging Techniques and Issues
 
+# 8. Checking the Output (generate_test_sample)
+
