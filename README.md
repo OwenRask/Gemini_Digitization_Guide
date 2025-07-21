@@ -10,6 +10,7 @@ First, one must get the documents they desire to scan into a clear, pdf format. 
 # 1. Structuring the File to Digitize
 
 You have spent some time compiling a bunch of government documents to digitize. One thing to know though, is that probably 30-40% of the accuracy of the digitization process relies on how clear and consistently scanned your documents are. While this obviously depends on how the document was obtained, below are a few tips that make the best structure of your documents.
+  
   A. If your document pages are not compiled into a PDF already, if scanning the individual pages as PNGs seems to be the best handeled by the digitizer code. 
   B. Make all the pages you scan contain the information you want to digitize. THIS IS ESPECIALLY CRUCIAL FOR PAGE 1, OR ELSE IT WILL THROW AN ERROR. Thus, the first table or file should appear on page 1 of the combined PDF. 
   C. Try as much as possible to crop/scan the images so that the individual pages have the same layout from page to page. Feeding gemini a few nicely scanned pages and then switching to pictures you took of the document on your phone with half of the image being the background of your surroudnings will reduce accuracy. 
