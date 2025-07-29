@@ -1,7 +1,7 @@
 # Gemini_Digitization_Guide
 This repository serves as a guide for John-Eric and Winnie’s pre-docs (as well as anyone else they share it with) on how to use Google’s Gemini API to digitize scanned documents. The process outlined here transforms complex historical documents into structured, usable data files. This README provides step-by-step instructions on how to run and customize the provided template code for any digitization task. The remainder of the document includes an outline with detailed guides and explanatory videos to support this process. When first learning the process, one should proceed by the numbered headers. I am HEAVILY indebted to Anna Crowley who drafted the inital versions of the code you will see in this guide and helped me learn this process. 
 
-This guide was last edited on July 15th, 2025 by Owen Rask
+This guide was last edited on July 29th, 2025 by Owen Rask
 
 # Overview of the Whole Process
 
@@ -31,7 +31,7 @@ Ok, now you have your document fully scanned and ready to digitize. The next ste
 
 **2.D** While one can spend a long time constructing their Page Schema, do not ignore the page_to_datafram function, as it is the actual method which will turn the extracted JSON data into what appears in your final CSV. 
 
-A Video example where I discuss different Page Schemas and spend more time discussing the actual code:  
+A Video where I discuss different Page Schemas and spend more time discussing the actual code:  
 
 # 3. Prompts 
 
@@ -45,17 +45,33 @@ You have your cleaned PDFs and your Page Schema to extract the infromation from 
 
 **3.D** When explaining what gemini should be looking for and extracting from each page, the important 'directions' you should always provide are (i) location: is it indented from a previous data point? Is it always in a box or neat specific wording? Is it always on a specific part of the page or column? Etc. And (ii) format: it is a date so it will be in the 'YY-MM', is it a numeric or monetary value? Does it only take on specific values ("yes" or "no")? Is it always underlined or bolded? Etc. 
 
+A Video where I explain tips for constructing prompts based on the document type and layout with examples:  
+
 # 4. Digitizer Code (Digitizer.py)
 
 You have all the pieces (cleaned PDF, Page Schema, and prompt) assembled, so it is time to actual run the digitization code! The 'Digitizer.py' script houses all the functions that actually run the digitization process. In practice, this file should be rarely changed, usually only edited to (i) add more safe-guards into the process, (ii) to debug what is going wrong digitization is not working, and (iii) updated when new models of gemini or the python SDK are released. Below are a discussion of some parameters and helpful debugging code I have currently built into the digitizer.py script, which will need to be uncommented to use. See the below video for a full review of the digitizer.py script.
 
-**4.A** In the extract_page_data function, three parameters are defined: (i) max_token_output which is set at 40,000 and adjusting this depends on how much information you are extracting from each page, (ii) max_retries, and (iii) base_wait which are used when the code runs into a gemini error (any error in the 500 range is a google side error).
+**4.A** Always remember to specify the Page Schema script you are using at the top of the digitizer script to import the correct page_to_dataframe function.
 
-**4.B** In the extract_page_data function, there are two lines that provide most of the debugging help when uncommented. First is the line: 'print("API Response: ", response).' When this is uncommented, the script will then display the raw extracted gemini JSON material from that page (in the Page Schema format). Use this to see how well gemini is understanding and extracting the image information from your prompt + Page Schema provided. Second is the line: 'print(" Response Usage Metadata:", response.usage_metadata).' Uncomment this line to see how many input and output tokens your prompt + page extraction process requires. I discuss more about token tracking and payment scheme below in Section #9.  
+**4.B** In the extract_page_data function, three parameters are defined: (i) max_token_output which is set at 40,000 and adjusting this depends on how much information you are extracting from each page, (ii) max_retries, and (iii) base_wait which are used when the code runs into a gemini error (any error in the 500 range is a google side error).
+
+**4.C** In the extract_page_data function, there are two lines that provide most of the debugging help when uncommented. First is the line: 'print("API Response: ", response).' When this is uncommented, the script will then display the raw extracted gemini JSON material from that page (in the Page Schema format). Use this to see how well gemini is understanding and extracting the image information from your prompt + Page Schema provided. Second is the line: 'print(" Response Usage Metadata:", response.usage_metadata).' Uncomment this line to see how many input and output tokens your prompt + page extraction process requires. I discuss more about token tracking and payment scheme below in Section #9.  
+
+A Video where I explain the digiitzer.py code in detail:  
 
 # 5. Bringing Everything Together (Config.py)
 
+Once you have all the pieces needed for digitization (points 1, 2, and 3 above), the final thing todo before running the command is set-up the config.py script. This script is what houses all the PDF file input and csv output pathways, what version of your prompt you want to use, and the logging settings. It also is where you specify what model/version of gemini you want to use when digitizing the document. It should be a pretty self-explanatory script, however I do provide a brief video below explaining some helpful tips when you have digitize say, 40+ documents with hundreds of pages, which is when smart use of the config.py script will save you a lot of time in orgabization. 
+
+A Video where I review and set up the config.py code for specific projects:  
+
 # 6. Running the Whole Process (Main.py)
+
+If everything else is together, all you should have to do is run the main.py script and the entire digitization process should commence. But there are a few things you need to change in the main script between different document types. See the video below for a quick discussion of the main script. 
+
+**6.A** Always remember to specify the Page Schema script you are using at the top of the main script to import the correct page schema.
+
+A Video briefly review the main script (and talk about the config script):  
 
 # 7. Common Debugging Techniques and Issues
 
