@@ -15,7 +15,7 @@ You have spent some time compiling a bunch of government documents to digitize. 
 
 **1.A** If your document pages are not compiled into a PDF already, scanning the individual pages as PNGs seems to be the best image format that is handeled by the digitizer code.  
   
-**1.B** Make all the pages you scan contain the information you want to digitize. THIS IS ESPECIALLY CRUCIAL FOR PAGE 1, OR ELSE IT WILL THROW AN ERROR. Thus, the first table or file should appear on page 1 of the combined PDF.  
+**1.B** Make all the pages you scan contain the information you want to digitize. This is especially crucial for page 1, or else the digitization code will throw an error. Thus, the first table or file should appear on page 1 of the combined PDF.  
   
 **1.C** Try as much as possible to crop/scan the images so that the individual pages have the same layout from page to page. Feeding gemini a few nicely scanned pages and then switching to pictures you took of the document on your phone with half of the image being the background of your surroudnings will reduce accuracy.  
 
