@@ -1,0 +1,89 @@
+Extract structured data from this file and return it following the **Page schema**.
+
+---
+
+### ** General Instructions**
+- The document contains **tabular data with nested hierarchical structures**.
+- The first column represents **three different geographical levels**:
+  - **State** → Left-most aligned entries under Column 1.
+  - **City** → Found below the state, and indented once from state alignment.
+  - **Project** → Found below the city, indented once from city alignment, and indented twice from state alignment.
+- **All text is UPPERCASE**.
+- ** All letters are in the English alphabet and all words and names are in the English language**
+- **Do NOT omit any projects in the table**. Each time a project type (column 2) appears, it corresponds to a project entry.
+
+---
+
+### ** Page Handling Rules**
+- **Do not omit any projects that you see visually on the page, and do not add or make up any projects**
+- ** Include all projects which can be more than one city and sometimes for more than one state.**
+- **If a row does not contain an entry in column 2 (Type), it is a state or city.
+- **If a row does contain an entry in column 2 (Type), it is a project.
+- ** Ignore any row with the term "REGION" in Column 1**
+
+---
+
+### **Extraction Rules**
+1. **Page Number** → PAGE_PLACEMENT, as indicated by the page location in the file.
+2. **State Name** → Found in column 1, left-most aligned entries. Must be a valid U.S. state name.
+3. **City Name** → Found below the state, and indented to the right of the state name and to the left of the project name. Must be a valid U.S. city or town.
+4. **Project Name** → Found below a city, indented once from city alignment.
+    Common examples include:
+   - COMMUNITY RENEWAL PROG
+   - NEIGHBORHOOD DEV PROG
+   - DEMOLITION
+5. **Project Attributes**:
+   - **Type (Column 2)** → Single-letter code.
+   - **ID Number (Column 3)** → Format: single letter-number (e.g., R-60).
+   - **Planning Date (Column 4)** → Format: YY-MM, empty, or "NONE".
+   - **Execution Date (Column 5)** → Format: YY-MM, empty, or "NONE".
+   - **Completion Date (Column 6)** → Format: YY-MM or empty.
+   - **Approved Federal Grants (Column 7)** → Monetary value (replace blank/"NONE"/"-" with `0`).
+   - **Disbursed Federal Grants (Column 8)** → Monetary value (replace blank/"NONE"/"-" with `0`).
+   - ** Federal Grants status (located in the thin column between Column 7 and Column 8) → Format: "*" or empty
+
+---
+
+### **Output Rules**
+- **Ensure correct nesting**:
+  - **States contain a list of cities**.
+  - **Cities contain a list of projects**.
+  - **Each project and its attributes are in a single row.**
+    - ** A project must have a type attribute from column 2 or an id attribute from column 3**.
+- **Do NOT assign a project name as a city name. Almost always, a project will not be listed directly under a state without a city name in between.**
+- **Ignore REGION data**.
+- **Provide an empty string where table values for a requested field are blank.**
+- **Do NOT add in any made up data that does not appear in the table**
+- **Follow the response schema provided** (`Page`).
+- **Most importantly, do NOT omit any projects**
+- **Use knowledge of U.S. states to correct minor spelling errors in states names.**
+    - Do not make major changes to the string if you cannot match the string to a state
+- **Use knowledge of U.S. cities to correct minor spelling errors in city names**
+    - Do not modify valid city names
+    - Do not make major changes to the string if you cannot match the string to a valid city name
+    - Within each state, cities are **almost always listed in alphabetical order**
+- **Use knowledge of U.S. streets and neighborhoods to correct minor spelling errors in project names**
+    - for example, once in a while, a project name will end in '(GN)' and it may be misspelled as '(EN)'. You should correct this.
+    - all letters are in the English alphabet
+
+---
+
+### ** Important Constraints**
+ **Ensure all states, cities, and projects are included.**
+ **Do NOT omit any projects.**
+ ** Indentation plays a critical role in identifying states, cities, and projects:**
+    - Always check the indentation level: one level from the state = city, and two levels = project.
+    - Do NOT use a project name for a city name.
+**Use knowledge of U.S. states to correct minor spelling errors in states names.**
+    - Do not make major changes to the string if you cannot match the string to a state
+**Use knowledge of U.S. cities to correct minor spelling errors in city names**
+    - Do not modify valid city names
+    - Do not make major changes to the string if you cannot match the string to a valid city name
+    - Within each state, cities are **almost always listed in alphabetical order**
+**Use knowledge of U.S. streets and neighborhoods to correct minor spelling errors ONLY in project names**
+** If you cannot figure out a state or a city name then leave it blank. **
+**If Execution Date is not blank, then Planning Date must not be blank.**
+**If Completion Date is not blank, then Execution Date must not be blank.**
+**For dates in the format YY-MM,  the 'YY' is a number between 49 and 75, and the `MM` is a number from 01 to 12 (inclusive). Any date outside this range is invalid.**
+
+
